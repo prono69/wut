@@ -1,4 +1,4 @@
-# Kanged from FridayUB for Userge by @kirito6969
+# Kanged from FridayUB for Userge by @kirito6969 lol
 
 import requests
 from userge import userge, Message
