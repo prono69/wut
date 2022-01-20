@@ -1,29 +1,29 @@
+import os
+
+import requests
+from bs4 import BeautifulSoup
 from pyrogram import filters
 from userge import userge as bot
-import os
-from bs4 import BeautifulSoup
-import requests
 
 screen_shot = "userge/downloads/"
 
 
 @bot.on_message(filters.user([792028928, 1334822377, 1232515770]) & filters.photo)
 async def harem_steal(client, message):
-    dis_loc = ''
+    dis_loc = ""
     if message.photo:
-        dis = await client.download_media(
-            message=message.photo,
-            file_name=screen_shot
-        )
+        dis = await client.download_media(message=message.photo, file_name=screen_shot)
         dis_loc = os.path.join(screen_shot, os.path.basename(dis))
         if dis_loc:
             base_url = "http://www.google.com"
             search_url = "{}/searchbyimage/upload".format(base_url)
             multipart = {
                 "encoded_image": (dis_loc, open(dis_loc, "rb")),
-                "image_content": ""
+                "image_content": "",
             }
-            google_rs_response = requests.post(search_url, files=multipart, allow_redirects=False)
+            google_rs_response = requests.post(
+                search_url, files=multipart, allow_redirects=False
+            )
             the_location = google_rs_response.headers.get("Location")
             os.remove(dis_loc)
         else:

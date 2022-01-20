@@ -7,16 +7,21 @@
 # All rights reserved.
 
 import os
+
 from pygments import highlight
-from pygments.lexers import guess_lexer
 from pygments.formatters import JpgImageFormatter
+from pygments.lexers import guess_lexer
+from userge import Message, userge
 from userge.utils import runcmd
-from userge import userge, Message
 
 
-@userge.on_cmd('pcode', about={
-               "header": "Convert Python Codes To Highlighted Html / Image",
-               "usage": "{tr}pcode (replying to py file)"})
+@userge.on_cmd(
+    "pcode",
+    about={
+        "header": "Convert Python Codes To Highlighted Html / Image",
+        "usage": "{tr}pcode (replying to py file)",
+    },
+)
 async def convert_to_image_or_html(message: Message):
     msg_ = await message.edit("`Please Wait!`")
     t = message.input_str
@@ -36,6 +41,7 @@ async def convert_to_image_or_html(message: Message):
     await msg_.delete()
     os.remove(output_)
 
+
 async def create_html_or_img(file, force_html=False):
     file_t = open(file, "r")
     file_z = file_t.readlines()
@@ -45,10 +51,10 @@ async def create_html_or_img(file, force_html=False):
         file_name = "code.html"
         await runcmd(f"pygmentize -f html -O full -o {file_name} {file}")
         return file_name
-        
+
     data = "\n".join(file_z)
     file_name = "code.jpg"
-    f_jpg = open(file_name, 'wb')
+    f_jpg = open(file_name, "wb")
     lexer = guess_lexer(data)
     f_jpg.write(highlight(data, lexer, JpgImageFormatter()))
     return file_name

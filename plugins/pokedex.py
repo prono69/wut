@@ -7,14 +7,15 @@
 # All rights reserved.
 
 import requests
-from userge import userge, Message
+from userge import Message, userge
+
 
 @userge.on_cmd(
     "pokemon",
     about={
         "header": "Get Details About Pokémon!",
         "usage": "{tr}pokemon (Pokemon name)",
-    }
+    },
 )
 async def pokedex(message: Message):
     pablo = await message.edit("`Searching For Pokémon.....`")
@@ -22,7 +23,9 @@ async def pokedex(message: Message):
     reply = message.reply_to_message
     reply_id = reply.message_id if reply else None
     if not sgname:
-        await pablo.edit("`Please Give Me A Valid Input. You Can Check Help Menu To Know More!`")
+        await pablo.edit(
+            "`Please Give Me A Valid Input. You Can Check Help Menu To Know More!`"
+        )
         return
     url = f"https://starkapis.herokuapp.com/pokedex/{sgname}"
     r = requests.get(url).json()
@@ -76,17 +79,17 @@ Error:   {pokemon.get("error")}"""
         photo=link,
         caption=caption,
         parse_mode="HTML",
-        reply_to_message_id=reply_id
+        reply_to_message_id=reply_id,
     )
     await pablo.delete()
 
-    
+
 @userge.on_cmd(
     "pokecard",
     about={
         "header": "Get a Pokecard!",
         "usage": "{tr}pokecard (Pokemon name)",
-    }
+    },
 )
 async def pokecard(message: Message):
     pokename = message.input_or_reply_str
@@ -101,10 +104,9 @@ async def pokecard(message: Message):
     try:
         pic = a["cards"][0]["imageUrlHiRes"]
         await message.client.send_photo(
-            message.chat.id, pic, reply_to_message_id = reply_id
+            message.chat.id, pic, reply_to_message_id=reply_id
         )
         await message.delete()
     except BaseException:
         await message.edit("`Be sure To give correct Name`", del_in=3)
         return
-    

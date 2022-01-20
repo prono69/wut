@@ -3,8 +3,9 @@
 # Thanks @PhycoNinja13b for fixing a bug :) #LazyAF_Geng
 
 import random
+
 import aiohttp
-from userge import userge, Message
+from userge import Message, userge
 
 QUOTE_TEMPLATE = """
 ❅ <b><u>Anime:</b></u>
@@ -14,19 +15,22 @@ QUOTE_TEMPLATE = """
   ➥ `{character}`
 
 ❅ <b><u>Quote:</u></b>
-  ➥ `{quote}`""".strip("\n").format
+  ➥ `{quote}`""".strip(
+    "\n"
+).format
 
 
-@userge.on_cmd("aq", about={
-    'header': "Get random anime quotes",
-    'flags': {
-              '-a': "A random quote by anime name",
-              '-c': "A random quote by character name"
+@userge.on_cmd(
+    "aq",
+    about={
+        "header": "Get random anime quotes",
+        "flags": {
+            "-a": "A random quote by anime name",
+            "-c": "A random quote by character name",
+        },
+        "usage": "{tr}aq" "\n{tr}aq -a Boku No Pico" "\n{tr}aq -c Pico",
     },
-    'usage': "{tr}aq"
-             "\n{tr}aq -a Boku No Pico"
-             "\n{tr}aq -c Pico"
-})
+)
 async def anime_quote(message: Message):
     # Get desired endpoints
     input_text = message.filtered_input_str
@@ -50,7 +54,9 @@ async def anime_quote(message: Message):
             await message.delete()
             if error:
                 return await message.err(error)
-            await message.client.send_message(message.chat.id, QUOTE_TEMPLATE(**data), reply_to_message_id=reply_id)
+            await message.client.send_message(
+                message.chat.id, QUOTE_TEMPLATE(**data), reply_to_message_id=reply_id
+            )
 
     except Exception as e:
         await message.err(e)

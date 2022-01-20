@@ -5,7 +5,7 @@ import re
 
 import requests
 from bs4 import BeautifulSoup
-from userge import userge, Message
+from userge import Message, userge
 
 cxc = [
     "Mozilla/5.0 (Linux; Android 8.0.0; SM-G960F Build/R16NW) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.84 Mobile Safari/537.36",
@@ -18,18 +18,22 @@ cxc = [
 ]
 
 
-@userge.on_cmd("books",
-               about={
-                   "header": "Gathers All The Book Download links!",
-                   "usage": "Read Books",
-                   "example": "{tr}books (book name)",
-               },
-               )
+@userge.on_cmd(
+    "books",
+    about={
+        "header": "Gathers All The Book Download links!",
+        "usage": "Read Books",
+        "example": "{tr}books (book name)",
+    },
+)
 async def bookdl(message: Message):
     book = message.input_or_reply_str
     pablo = await message.edit("`Please Wait!`")
     if not book:
-        await pablo.edit("`Please Give Me A Valid Input. You Can Check Help Menu To Know More!`", del_in=3)
+        await pablo.edit(
+            "`Please Give Me A Valid Input. You Can Check Help Menu To Know More!`",
+            del_in=3,
+        )
         return
     lin = "https://b-ok.cc/s/"
     text = book
@@ -47,8 +51,7 @@ async def bookdl(message: Message):
             for td in tr.find_all("h3"):
                 for ts in td.find_all("a"):
                     title = ts.get_text()
-                for ts in td.find_all("a",
-                                      attrs={"href": re.compile("^/book/")}):
+                for ts in td.find_all("a", attrs={"href": re.compile("^/book/")}):
                     ref = ts.get("href")
                     link = "https://b-ok.cc" + ref
 

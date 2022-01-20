@@ -1,8 +1,9 @@
 """Random animal pics :) made by @kirito6969"""
 import re
+
 import aiohttp
 import nekos
-from userge import userge, Message
+from userge import Message, userge
 
 animal = r"([^.]*)$"
 ok_exts = ["jpg", "jpeg", "png"]
@@ -17,27 +18,13 @@ class AioHttp:
 
 
 animals_data = {
-    "dog": {
-        "url": "https://random.dog/woof.json",
-        "key": "url"},
-    "cat": {
-        "url": "http://aws.random.cat/meow",
-        "key": "file"},
-    "panda": {
-        "url": "https://some-random-api.ml/img/panda",
-        "key": "link"},
-    "redpanda": {
-        "url": "https://some-random-api.ml/img/red_panda",
-        "key": "link"},
-    "bird": {
-        "url": "https://some-random-api.ml/img/birb",
-        "key": "link"},
-    "fox": {
-        "url": "https://some-random-api.ml/img/fox",
-        "key": "link"},
-    "koala": {
-        "url": "https://some-random-api.ml/img/koala",
-        "key": "link"},
+    "dog": {"url": "https://random.dog/woof.json", "key": "url"},
+    "cat": {"url": "http://aws.random.cat/meow", "key": "file"},
+    "panda": {"url": "https://some-random-api.ml/img/panda", "key": "link"},
+    "redpanda": {"url": "https://some-random-api.ml/img/red_panda", "key": "link"},
+    "bird": {"url": "https://some-random-api.ml/img/birb", "key": "link"},
+    "fox": {"url": "https://some-random-api.ml/img/fox", "key": "link"},
+    "koala": {"url": "https://some-random-api.ml/img/koala", "key": "link"},
 }
 
 animals = list(animals_data)
@@ -53,9 +40,13 @@ async def prep_animal_image(animal_data):
     return image
 
 
-@userge.on_cmd("animal", about={
-    'header': "Sends desired animals pic",
-    'usage': "{tr}animal [dog|cat|panda|redpanda|koala|bird|fox]"})
+@userge.on_cmd(
+    "animal",
+    about={
+        "header": "Sends desired animals pic",
+        "usage": "{tr}animal [dog|cat|panda|redpanda|koala|bird|fox]",
+    },
+)
 async def animal_image(message: Message):
     lol = message.input_str
     reply = message.reply_to_message
@@ -72,9 +63,13 @@ async def animal_image(message: Message):
     )
 
 
-@userge.on_cmd("afact", about={
-    'header': "Sends desired animals fact",
-    'usage': "{tr}afact [dog|cat|panda|redpanda|koala|bird|fox]"})
+@userge.on_cmd(
+    "afact",
+    about={
+        "header": "Sends desired animals fact",
+        "usage": "{tr}afact [dog|cat|panda|redpanda|koala|bird|fox]",
+    },
+)
 async def fact(message: Message):
     cmd = message.input_str
     if not cmd:
@@ -96,9 +91,7 @@ async def fact(message: Message):
         await message.edit("`Unsupported animal...`", del_in=3)
 
 
-@userge.on_cmd("cat", about={
-    'header': "Sends a cat Pic",
-    'usage': "{tr}cat"})
+@userge.on_cmd("cat", about={"header": "Sends a cat Pic", "usage": "{tr}cat"})
 async def _(message: Message):
     target = nekos.cat()
     reply = message.reply_to_message

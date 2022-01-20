@@ -1,45 +1,46 @@
 # By @kirito6969 for Userge
 
 import requests
-from userge import userge, Message
-from userge.utils import rand_array
+from userge import Message, userge
 from userge.plugins.fun.nekos import send_nekos
+from userge.utils import rand_array
 
 NSFW = [
-    'lewdneko',
-    'random',
-    'ass',
-    'bdsm',
-    'cum',
-    'doujin',
-    'femdom',
-    'hentai',
-    'maid',
-    'maids',
-    'orgy',
-    'panties',
-    'nsfwwallpapers',
-    'nsfwmobilewallpapers',
-    'netorare',
-    'gif',
-    'blowjob',
-    'feet',
-    'pussy',
-    'uglybastard',
-    'uniform',
-    'gangbang',
-    'foxgirl',
-    'cumslut',
-    'glasses',
-    'thighs',
-    'tentacles',
-    'masturbation',
-    'school',
-    'yuri',
-    'succubus',
-    'zettai-ryouiki']
+    "lewdneko",
+    "random",
+    "ass",
+    "bdsm",
+    "cum",
+    "doujin",
+    "femdom",
+    "hentai",
+    "maid",
+    "maids",
+    "orgy",
+    "panties",
+    "nsfwwallpapers",
+    "nsfwmobilewallpapers",
+    "netorare",
+    "gif",
+    "blowjob",
+    "feet",
+    "pussy",
+    "uglybastard",
+    "uniform",
+    "gangbang",
+    "foxgirl",
+    "cumslut",
+    "glasses",
+    "thighs",
+    "tentacles",
+    "masturbation",
+    "school",
+    "yuri",
+    "succubus",
+    "zettai-ryouiki",
+]
 
-SFW = ['neko', 'sfwfoxes', 'wallpapers', 'mobilewallpapers']
+SFW = ["neko", "sfwfoxes", "wallpapers", "mobilewallpapers"]
 
 neko_help = "<b>🔞NSFW</b> :  "
 for i in NSFW:
@@ -66,17 +67,17 @@ async def akaneko(message: Message):
         neko_all = SFW + NSFW
         choosen_ = (choice.split())[0]
         if choosen_ not in neko_all:
-            await message.err('Choose a valid Input !, See Help for more info.', del_in=5)
+            await message.err(
+                "Choose a valid Input !, See Help for more info.", del_in=5
+            )
             return
     else:
         choosen_ = rand_array(SFW)
 
     await message.delete()
-    k = requests.get(
-        f"https://akaneko-api.herokuapp.com/api/{choosen_}").json()
+    k = requests.get(f"https://akaneko-api.herokuapp.com/api/{choosen_}").json()
     link = k.get("url")
     try:
         await send_nekos(message, link)
     except Exception:
         await message.err("Nothing to send :(", del_in=4)
-        
