@@ -30,9 +30,7 @@ jobs:
 
         run: >
 
-          autopep8 --verbose --in-place --recursive --aggressive
-
-          --ignore=W605 .
+          autopep8 --verbose --in-place --recursive --aggressive --aggressive --ignore=W605 .
 
       - name: Remove unused imports and variables
 
