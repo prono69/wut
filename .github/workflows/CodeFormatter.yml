@@ -30,7 +30,7 @@ jobs:
 
         run: >
 
-          autopep8 --verbose --in-place --recursive --aggressive --aggressive --ignore=W605 .
+          autopep8 --verbose --in-place --recursive --aggressive --aggressive --ignore=W605 plugins/
 
       - name: Remove unused imports and variables
 
@@ -38,7 +38,7 @@ jobs:
 
           autoflake --in-place --recursive --remove-all-unused-imports
 
-          --remove-unused-variables --ignore-init-module-imports .
+          --remove-unused-variables --ignore-init-module-imports plugins/
 
       - name: lint with isort and black
 
